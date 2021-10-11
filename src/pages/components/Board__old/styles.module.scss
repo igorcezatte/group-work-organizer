@@ -1,0 +1,19 @@
+.boardContainer {
+    max-width: 1120px;
+    margin: 0 auto;
+    color: white;
+    height: calc(100vh - 5rem);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.droppableContainer {
+    background: var(--gray-800);
+}
+
+.task {
+    background: var(--gray-300);
+    margin: 10px;
+}

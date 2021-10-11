@@ -1,0 +1,16 @@
+.listContainer {
+    display: flex;
+}
+
+.toDoArea, .completedArea {
+    background: var(--orange-700);
+    width: calc(25vw - 5rem);
+    margin: 2rem;
+    border-radius: 0.4rem;
+}
+
+.toDoTitle, .completedTitle {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
