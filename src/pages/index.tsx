@@ -1,7 +1,6 @@
+import { Typography } from '@mui/material';
+import { Box } from '@mui/system';
 import Head from 'next/head';
-import { Header } from './components/Header';
-
-import { Board } from './components/Board';
 
 export default function Home() {
   return (
@@ -9,8 +8,9 @@ export default function Home() {
       <Head>
         <title>Homepage - GW.Organizer</title>
       </Head>
-      <Header />
-      <Board />
+      <Box>
+        <Typography variant="h6">Home Page</Typography>
+      </Box>
     </>
-  )
+  );
 }
