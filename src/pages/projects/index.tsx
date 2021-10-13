@@ -7,10 +7,10 @@ export default function Home() {
   return (
     <Layout>
       <Head>
-        <title>Homepage - GW.Organizer</title>
+        <title>Projects - GW.Organizer</title>
       </Head>
       <Box>
-        <Typography variant="h6">Home Page</Typography>
+        <Typography variant="h6">Projects Page</Typography>
       </Box>
     </Layout>
   );

@@ -18,6 +18,8 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 
+import logoNameWhite from '@assets/logo-name-white.png';
+
 const drawerWidth = 240;
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -170,3 +172,36 @@ export function Layout({ children }: LayoutProps) {
     </Box>
   );
 }
+
+type LayoutCenterProps = {
+  children: React.ReactNode;
+};
+
+Layout.Center = function LayoutCenter({ children }: LayoutCenterProps) {
+  return (
+    <Box
+      sx={{
+        height: '100vh',
+        width: '100%',
+        display: 'flex',
+      }}
+    >
+      <AppBar position="fixed">
+        <Toolbar>
+          <img src={logoNameWhite.src} height={30} />
+        </Toolbar>
+      </AppBar>
+
+      <Box
+        sx={{
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        {children}
+      </Box>
+    </Box>
+  );
+};

@@ -1,7 +1,5 @@
+import * as React from 'react';
 import { AppProps } from 'next/app';
-
-import { Layout } from '@components/Layout';
-
 import {
   ThemeProvider,
   createTheme,
@@ -31,9 +29,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <CssBaseline />
       <ThemeProvider theme={theme}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <Component {...pageProps} />
       </ThemeProvider>
     </>
   );
