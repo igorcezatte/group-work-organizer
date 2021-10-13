@@ -1,4 +1,5 @@
 import { Paper, Typography, Box, Divider } from '@mui/material';
+import { startCase } from 'lodash';
 import { Droppable } from 'react-beautiful-dnd';
 
 type ProjectBoardColumnProps = {
@@ -13,7 +14,7 @@ export function ProjectBoardColumn({
   return (
     <Paper sx={{ display: 'flex', flexDirection: 'column' }}>
       <Typography padding="1rem" variant="h6">
-        {dropId.toUpperCase()}
+        {startCase(dropId)}
       </Typography>
       <Divider />
       <Droppable droppableId={dropId}>

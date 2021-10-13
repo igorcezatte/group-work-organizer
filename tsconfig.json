@@ -7,6 +7,12 @@
       ],
       "@hooks/*": [
         "src/hooks/*"
+      ],
+      "@assets/*": [
+        "src/assets/*"
+      ],
+      "@utils/*": [
+        "src/util/*"
       ]
     },
     "target": "es5",
