@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { AppProps } from 'next/app';
+import { Provider } from 'next-auth/client';
 import {
   ThemeProvider,
   createTheme,
@@ -26,12 +27,12 @@ const theme = createTheme(themeOptions);
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <Provider session={pageProps.session}>
       <CssBaseline />
       <ThemeProvider theme={theme}>
         <Component {...pageProps} />
       </ThemeProvider>
-    </>
+    </Provider>
   );
 }
 
