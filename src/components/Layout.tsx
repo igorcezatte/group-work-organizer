@@ -17,6 +17,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import { Button } from '@mui/material';
+import { signOut, useSession } from 'next-auth/client';
 
 import logoNameWhite from '@assets/logo-name-white.png';
 
@@ -98,6 +100,7 @@ type LayoutProps = {
 export function Layout({ children }: LayoutProps) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [session] = useSession();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -127,6 +130,12 @@ export function Layout({ children }: LayoutProps) {
           <Typography variant="h6" noWrap component="div">
             Mini variant drawer
           </Typography>
+          <Typography variant="h6" noWrap component="div">
+            {session.user.email}
+          </Typography>
+          <Button variant="outlined" color="error" onClick={() => signOut()}>
+            Sign Out
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>

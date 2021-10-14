@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { Paper, TextField, Button } from '@mui/material';
+import { signIn } from 'next-auth/client';
 import { Google } from '@mui/icons-material';
 
 import { Layout } from '@components/Layout';
@@ -16,7 +17,7 @@ const LogoImage = styled('img')({
   margin: '0 auto',
 });
 
-export default function Home() {
+export default function Login() {
   const { formValues, handleChange, onSubmit } = useForm<LoginFormValues>({
     initialValues: {
       email: '',
@@ -44,7 +45,7 @@ export default function Home() {
       >
         <LogoImage src={logo.src} width={100} />
 
-        <TextField
+        {/* <TextField
           name="email"
           type="email"
           label="Email"
@@ -62,15 +63,20 @@ export default function Home() {
 
         <Button type="submit" variant="contained">
           Login
+        </Button> */}
+
+        <Button variant="contained" onClick={() => signIn("auth0")}>
+          Login
         </Button>
-        <Button
+        
+        {/* <Button
           sx={{ display: 'flex', alignItems: 'center' }}
           type="button"
           variant="contained"
           startIcon={<Google />}
         >
           Login with Google
-        </Button>
+        </Button> */}
       </Paper>
     </Layout.Center>
   );
