@@ -4,7 +4,7 @@ import connect from '../../services/database';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === 'POST') {
-        const { email, name } = req.body;
+        const { email, name, image } = req.body;
 
         if (!email || !name) {
             res.status(400).json({ error: 'Missing body parameter' });
@@ -23,6 +23,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const response = await db.collection("users").insertOne({
             name,
             email,
+            image,
             projects: []
         });
 
