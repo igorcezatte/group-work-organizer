@@ -65,18 +65,15 @@ export default function Login() {
           Login
         </Button> */}
 
-        <Button variant="contained" onClick={() => signIn("auth0")}>
-          Login
-        </Button>
-        
-        {/* <Button
+        <Button
           sx={{ display: 'flex', alignItems: 'center' }}
           type="button"
           variant="contained"
           startIcon={<Google />}
+          onClick={() => signIn("google")}
         >
           Login with Google
-        </Button> */}
+        </Button>
       </Paper>
     </Layout.Center>
   );
