@@ -131,7 +131,7 @@ export function Layout({ children }: LayoutProps) {
             Mini variant drawer
           </Typography>
           <Typography variant="h6" noWrap component="div">
-            {session.user.email}
+            {session ? session.user.email : null}
           </Typography>
           <Button variant="outlined" color="error" onClick={() => signOut()}>
             Sign Out
