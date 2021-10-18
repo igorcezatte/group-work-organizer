@@ -15,12 +15,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         const user = await db.collection('users').findOne({ email });
 
+        if (!user.projects) {
+            res.status(200);
+            return;
+        }
+
         const userProjects = user.projects;
 
         const projects = await Promise.all(userProjects.map(async p => {
             return await db.collection('projects').findOne({ _id: new ObjectID(p) });
         }));
-        
+
         res.status(200).json(projects);
     }
 };

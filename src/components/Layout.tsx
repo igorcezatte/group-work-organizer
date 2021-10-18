@@ -18,7 +18,7 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { Button } from '@mui/material';
-import { signOut, useSession } from 'next-auth/client';
+import { useSession, signOut } from 'next-auth/client';
 
 import logoNameWhite from '@assets/logo-name-white.png';
 
@@ -131,7 +131,7 @@ export function Layout({ children }: LayoutProps) {
             Mini variant drawer
           </Typography>
           <Typography variant="h6" noWrap component="div">
-            {session.user.email}
+            {session ? session.user.email : null}
           </Typography>
           <Button variant="outlined" color="error" onClick={() => signOut()}>
             Sign Out
