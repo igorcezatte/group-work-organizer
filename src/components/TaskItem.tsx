@@ -16,7 +16,7 @@ export function TaskItem({ task }: TaskItemProps) {
   return (
     <ListItem alignItems="flex-start">
       <ListItemAvatar>
-        <Avatar alt="Ash Ketchun" />
+        <Avatar src={task.userImage} alt="Ash Ketchun" />
       </ListItemAvatar>
       <ListItemText
         primary={task.title}

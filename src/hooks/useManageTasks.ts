@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { DropResult } from 'react-beautiful-dnd';
+import { UserData  } from '../pages/projects/[id]';
 
 export const TASK_STATUS = [
   'todo',
@@ -11,15 +12,17 @@ export const TASK_STATUS = [
 export type TaskStatus = typeof TASK_STATUS[number];
 
 export type Task = {
-  id: string;
+  _id: string;
   title: string;
   description?: string;
-  userId: string;
+  user?: string;
   projectId: string;
   status: TaskStatus;
+  userName: string;
+  userImage: string;
 };
 
-type CreateTaskParam = Pick<Task, 'userId' | 'title' | 'status' | 'projectId'>;
+type CreateTaskParam = Pick<Task, 'user' | 'title' | 'status' | 'projectId' | 'userName' |'userImage'>;
 
 export type Tasks = Task[];
 
@@ -27,7 +30,7 @@ type TasksByStatusLookup = Record<TaskStatus, Tasks>;
 
 function createTask(task: CreateTaskParam): Task {
   return {
-    id: Date.now().valueOf().toString(),
+    _id: Date.now().valueOf().toString(),
     ...task,
   };
 }
@@ -47,17 +50,21 @@ function createTaskByStatusLookup(tasks: Tasks) {
 }
 
 export function useManageTasks(taskList: Tasks = []) {
-  const [tasks, setTasks] = React.useState(taskList);
+  const [tasks, setTasks] = useState([]);
+  
+  useEffect(() => {
+    setTasks(taskList);
+  }, [taskList]);
 
   const tasksByStatus = createTaskByStatusLookup(tasks);
 
   const edit = (id: string, editedTask: Partial<Task>) =>
     setTasks(($tasks) =>
-      $tasks.map((task) => (task.id === id ? { ...task, ...editedTask } : task))
+      $tasks.map((task) => (task._id === id ? { ...task, ...editedTask } : task))
     );
 
   const remove = (id: string) =>
-    setTasks(($tasks) => $tasks.filter((task) => task.id !== id));
+    setTasks(($tasks) => $tasks.filter((task) => task._id !== id));
 
   const add = (task: CreateTaskParam) =>
     setTasks(($tasks) => [createTask(task), ...$tasks]);
