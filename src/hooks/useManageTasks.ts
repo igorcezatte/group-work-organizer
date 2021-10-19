@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { DropResult } from 'react-beautiful-dnd';
-import { UserData  } from '../pages/projects/[id]';
+import { api } from 'src/services/api';
 
 export const TASK_STATUS = [
   'todo',
@@ -22,7 +22,7 @@ export type Task = {
   userImage: string;
 };
 
-type CreateTaskParam = Pick<Task, 'user' | 'title' | 'status' | 'projectId' | 'userName' |'userImage'>;
+type CreateTaskParam = Pick<Task, 'user' | 'title' | 'status' | 'projectId' | 'userName' | 'userImage'>;
 
 export type Tasks = Task[];
 
@@ -33,6 +33,10 @@ function createTask(task: CreateTaskParam): Task {
     _id: Date.now().valueOf().toString(),
     ...task,
   };
+};
+
+async function updateTask(id, destination) {
+  await api.put('/tasks/movetask', { id, destination });
 }
 
 function createTaskByStatusLookup(tasks: Tasks) {
@@ -51,7 +55,7 @@ function createTaskByStatusLookup(tasks: Tasks) {
 
 export function useManageTasks(taskList: Tasks = []) {
   const [tasks, setTasks] = useState([]);
-  
+
   useEffect(() => {
     setTasks(taskList);
   }, [taskList]);
@@ -121,6 +125,12 @@ export function useManageTasks(taskList: Tasks = []) {
        * Transform back into a list
        * **/
       const newTasks = Object.values(tasksStatus).flat();
+
+      try {
+        updateTask(taskToMove._id, destinationId);
+      } catch (err) {
+        console.log(err);
+      }
 
       return newTasks;
     });
