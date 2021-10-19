@@ -31,8 +31,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const task = await db.collection("tasks").insertOne({
             title,
             user: email,
+            userName: user.name,
+            userImage: user.image,
             projectId,
-            status: 'pending',
+            status: 'todo',
             createdAt: Date.now()
         });
 

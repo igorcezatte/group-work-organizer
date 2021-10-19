@@ -31,17 +31,10 @@ export default function ProjectPage() {
       if (!id) {
         return;
       }
-      
+
       const response = await api.get<Task[]>('/tasks/getbyproject', { params: { id } });
 
-      const completeTask = await Promise.all(response.data.map(async task => {
-        const res = await api.get<UserData>('/users', { params: { email: task.user }});
-        task.userName = res.data.name;
-        task.userImage =  res.data.image;
-        return task;
-      }));
-
-      setTasks(completeTask);
+      setTasks(response.data);
     };
     try {
       getTasks();
