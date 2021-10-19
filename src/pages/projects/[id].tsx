@@ -23,10 +23,15 @@ export interface UserData {
 export default function ProjectPage() {
   const router = useRouter()
   const [tasks, setTasks] = useState<Task[]>([]);
+  
   const { id } = router.query
 
   useEffect(() => {
     async function getTasks() {
+      if (!id) {
+        return;
+      }
+      
       const response = await api.get<Task[]>('/tasks/getbyproject', { params: { id } });
 
       const completeTask = await Promise.all(response.data.map(async task => {
@@ -43,7 +48,7 @@ export default function ProjectPage() {
     } catch (err) {
       console.log(err);
     }
-  }, [])
+  }, [id])
 
   return (
     <Layout>
