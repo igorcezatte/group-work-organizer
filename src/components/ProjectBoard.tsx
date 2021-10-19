@@ -8,8 +8,8 @@ import { ProjectBoardColumn } from './ProjectBoardColumn';
 import { TaskItem } from './TaskItem';
 import TaskList from './TaskList';
 
-export function ProjectBoard() {
-  const { tasksByStatus, drag } = useManageTasks(FAKE_TASKS);
+export function ProjectBoard({ tasks }) {
+  const { tasksByStatus, drag } = useManageTasks(tasks);
 
   return (
     <DragDropContext onDragEnd={drag}>
@@ -19,8 +19,8 @@ export function ProjectBoard() {
             <TaskList>
               {tasksByStatus[status].map((task, index) => (
                 <Draggable
-                  key={task.id}
-                  draggableId={task.id.toString()}
+                  key={task._id}
+                  draggableId={task._id.toString()}
                   index={index}
                 >
                   {(provided) => (

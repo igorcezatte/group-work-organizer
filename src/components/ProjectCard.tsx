@@ -17,7 +17,9 @@ type ProjectItemProps = {
 
 export function ProjectCard({ project }: ProjectItemProps) {
     return (
-        <Link href={`/projects/${project._id}`}>
+        <Link href={{
+            pathname: `/projects/${project._id}`
+        }}>
             <Card sx={{ minWidth: 250, maxHeight: 130, margin: 1.5, cursor: "pointer" }}>
                 <CardActions>
                     <CardContent>
@@ -30,6 +32,6 @@ export function ProjectCard({ project }: ProjectItemProps) {
                     </CardContent>
                 </CardActions>
             </Card>
-        </Link>
+        </Link >
     );
 };
