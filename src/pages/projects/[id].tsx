@@ -1,9 +1,11 @@
 import Head from 'next/head';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router'
+import Link from 'next/link';
 
 import { ProjectBoard } from '@components/ProjectBoard';
 import { Layout } from '@components/Layout';
-import { useEffect, useState } from 'react';
+import Button from '@mui/material/Button';
 import { api } from 'src/services/api';
 
 interface Task {
@@ -23,7 +25,7 @@ export interface UserData {
 export default function ProjectPage() {
   const router = useRouter()
   const [tasks, setTasks] = useState<Task[]>([]);
-  
+
   const { id } = router.query
 
   useEffect(() => {
@@ -48,6 +50,13 @@ export default function ProjectPage() {
       <Head>
         <title>Project - GW.Organizer</title>
       </Head>
+      <Link href={{
+        pathname: `/projects/`
+      }}>
+        <Button>
+          Voltar
+        </Button>
+      </Link>
       <ProjectBoard tasks={tasks} />
     </Layout>
   );
