@@ -48,7 +48,7 @@ export default function ProjectPage() {
     } catch (err) {
       console.log(err);
     }
-  }, [id])
+  }, [id, isNewTaskOpen])
 
   return (
     <Layout>
