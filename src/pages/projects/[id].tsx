@@ -7,6 +7,8 @@ import { ProjectBoard } from '@components/ProjectBoard';
 import { Layout } from '@components/Layout';
 import Button from '@mui/material/Button';
 import { api } from 'src/services/api';
+import { Box } from '@mui/system';
+import { NewTaskModal } from '@components/NewTaskModal';
 
 interface Task {
   user: string;
@@ -25,6 +27,9 @@ export interface UserData {
 export default function ProjectPage() {
   const router = useRouter()
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [isNewTaskOpen, setIsNewTaskOpen] = useState(false);
+  const handleOpenNewTaskModal = () => setIsNewTaskOpen(true);
+  const handleCloseNewTaskModal = () => setIsNewTaskOpen(false);
 
   const { id } = router.query
 
@@ -50,14 +55,25 @@ export default function ProjectPage() {
       <Head>
         <title>Project - GW.Organizer</title>
       </Head>
-      <Link href={{
-        pathname: `/projects/`
-      }}>
-        <Button>
-          Voltar
-        </Button>
-      </Link>
-      <ProjectBoard tasks={tasks} />
+      <Box>
+        <Link href={{
+          pathname: `/projects/`
+        }}>
+          <Button>
+            Voltar
+          </Button>
+        </Link>
+        <Box>
+          <Button onClick={handleOpenNewTaskModal}>
+            Criar nova Task
+          </Button>
+          <NewTaskModal
+            isOpen={isNewTaskOpen}
+            onRequestClose={handleCloseNewTaskModal}
+          />
+        </Box>
+        <ProjectBoard tasks={tasks} />
+      </Box>
     </Layout>
   );
 }
