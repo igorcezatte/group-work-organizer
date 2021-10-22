@@ -46,10 +46,10 @@ export function NewTaskModal({ isOpen, onRequestClose }: NewTaskModalProps) {
 
         try {
             await api.post(`/tasks?projectId=${id}`, { email, title, description });
+            onRequestClose();
         } catch (err) {
             console.log(err);
         }
-
     }
 
     return (
