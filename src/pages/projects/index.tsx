@@ -9,7 +9,7 @@ import { NewProjectModal } from '../../components/NewProjectModal';
 import { ProjectCard } from '../../components/ProjectCard';
 interface Project {
   _id: string;
-  name: string;
+  title: string;
   course: string;
   ownerId: string;
   deadline: Date;
@@ -34,7 +34,7 @@ export default function Projects({ session }) {
     } catch (err) {
       console.log(err);
     }
-  }, [session, projects]);
+  }, [session, isNewProjectOpen]);
 
   return (
     <Layout>
