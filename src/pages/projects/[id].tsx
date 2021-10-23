@@ -14,7 +14,6 @@ import { AddUserModal } from '@components/AddUserModal';
 import { getSessionWithRedirect } from '@utils/auth';
 import { NavLink } from '@components/NavLink';
 
-
 interface Task {
   user: string;
   title: string;
@@ -59,14 +58,14 @@ export default function ProjectPage() {
     } catch (err) {
       console.log(err);
     }
-  }, [id, isNewTaskModalOpen])
+  }, [id, isNewTaskModalOpen]);
 
   return (
     <Layout>
       <Head>
         <title>Project - GW.Organizer</title>
       </Head>
-      <Box>
+      <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
         <NavLink href="/projects">
           <Button>Voltar</Button>
         </NavLink>

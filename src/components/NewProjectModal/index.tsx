@@ -4,6 +4,7 @@ import Modal from '@mui/material/Modal';
 import { api } from 'src/services/api';
 import { useSession } from 'next-auth/client';
 import { useEffect, useState } from 'react';
+import { parseDate } from '@utils/date';
 
 interface User {
   _id: string;
@@ -49,7 +50,7 @@ export function NewProjectModal({
     }
   }, [session]);
 
-  async function CreateTask(project: NewProjectFormValues) {
+  async function createTask(project: NewProjectFormValues) {
     const title = project.title;
     const deadline = project.deadline;
 
@@ -84,7 +85,7 @@ export function NewProjectModal({
         <Paper
           component="form"
           onSubmit={onSubmit((formValues) => {
-            CreateTask(formValues);
+            createTask(formValues);
           })}
         >
           <h2>Criar novo Projeto</h2>
@@ -105,11 +106,11 @@ export function NewProjectModal({
             name="deadline"
             type="date"
             label="Data de entrega"
-            value={new Date(formValues.deadline).toISOString().split('T')[0]}
+            value={parseDate(formValues.deadline).inputFormat}
             onChange={(event) =>
               setFieldValue(
                 'deadline',
-                new Date(event.currentTarget.value).valueOf()
+                parseDate(event.currentTarget.value).valueOf
               )
             }
             InputLabelProps={{

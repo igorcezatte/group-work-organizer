@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { Paper, TextField, Button } from '@mui/material';
-import { signIn } from 'next-auth/client';
+import { getSession, signIn } from 'next-auth/client';
 import { Google } from '@mui/icons-material';
 
 import { Layout } from '@components/Layout';
@@ -61,4 +61,20 @@ export default function Login() {
       </Paper>
     </Layout>
   );
+}
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  if (session)
+    return {
+      redirect: {
+        destination: '/projects',
+        permanent: false,
+      },
+    };
+
+  return {
+    props: {},
+  };
 }

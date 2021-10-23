@@ -1,4 +1,5 @@
 import NextAuth from 'next-auth';
+import { session } from 'next-auth/client';
 import Providers from 'next-auth/providers';
 import connect from '../../../services/database';
 
@@ -35,7 +36,19 @@ export default NextAuth({
         return false;
       }
     },
+    async session(session) {
+      if (!session.user?.email) return Promise.resolve(session);
+
+      const { db } = await connect();
+
+      const foundUser = await db
+        .collection('users')
+        .findOne({ email: session.user.email });
+
+      return Promise.resolve({
+        ...session,
+        user: { ...session.user, id: foundUser._id },
+      });
+    },
   },
 });
-
-//export default (req: NextApiRequest, res: NextApiResponse) => NextAuth(req, res, options);

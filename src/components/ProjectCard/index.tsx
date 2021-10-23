@@ -13,6 +13,7 @@ type ProjectItemProps = {
     title: string;
     ownerId: string;
     deadline: Date;
+    teacherName: string;
     course: string;
     status: string;
     users: string[];
@@ -21,15 +22,29 @@ type ProjectItemProps = {
 
 export function ProjectCard({ project }: ProjectItemProps) {
   const { users = [] } = project;
+
   return (
     <NavLink href={`/projects/${project._id}`} noUnderline>
       <Card
-        sx={{ minWidth: 250, maxHeight: 130, margin: 1.5, cursor: 'pointer' }}
+        elevation={0}
+        sx={{
+          width: '100%',
+          cursor: 'pointer',
+          borderWidth: '1px',
+          borderStyle: 'solid',
+          borderColor: 'secondary.main',
+        }}
       >
         <CardActions>
-          <CardContent>
-            <Typography sx={{ mb: 2 }} variant="h5" component="div">
+          <CardContent sx={{ width: '100%' }}>
+            <Typography variant="h5" component="div" gutterBottom>
               {project.title}
+            </Typography>
+            <Typography variant="subtitle1" component="div" gutterBottom>
+              {project.course}
+            </Typography>
+            <Typography variant="subtitle2" component="div" gutterBottom>
+              {project.teacherName}
             </Typography>
             <Box
               display="flex"
