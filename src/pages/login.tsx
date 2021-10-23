@@ -26,7 +26,7 @@ export default function Login() {
   });
 
   return (
-    <Layout.Center>
+    <Layout variant="center">
       <Head>
         <title>Homepage - GW.Organizer</title>
       </Head>
@@ -45,36 +45,20 @@ export default function Login() {
       >
         <LogoImage src={logo.src} width={100} />
 
-        {/* <TextField
-          name="email"
-          type="email"
-          label="Email"
-          value={formValues.email}
-          onChange={handleChange}
-        />
-
-        <TextField
-          name="password"
-          type="password"
-          label="Password"
-          value={formValues.password}
-          onChange={handleChange}
-        />
-
-        <Button type="submit" variant="contained">
-          Login
-        </Button> */}
-
         <Button
           sx={{ display: 'flex', alignItems: 'center' }}
           type="button"
           variant="contained"
           startIcon={<Google />}
-          onClick={() => signIn("google")}
+          onClick={() =>
+            signIn('google', {
+              callbackUrl: `${window.location.origin}/projects`,
+            })
+          }
         >
           Login with Google
         </Button>
       </Paper>
-    </Layout.Center>
+    </Layout>
   );
 }
