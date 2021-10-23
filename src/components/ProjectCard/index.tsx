@@ -7,7 +7,7 @@ import Link from 'next/link';
 type ProjectItemProps = {
     project: {
         _id: string;
-        name: string;
+        title: string;
         ownerId: string;
         deadline: Date;
         course: string;
@@ -24,7 +24,7 @@ export function ProjectCard({ project }: ProjectItemProps) {
                 <CardActions>
                     <CardContent>
                         <Typography sx={{ mb: 2 }} variant="h5" component="div">
-                            {project.name}
+                            {project.title}
                         </Typography>
                         <Typography sx={{ fontSize: 14 }} color="text.secondary" variant="body2">
                             Data de entrega: {project.deadline}
