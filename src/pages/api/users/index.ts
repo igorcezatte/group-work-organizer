@@ -11,7 +11,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
-        const { db } = await connect();
+        const { db, client } = await connect();
 
         const user = await db.collection('users').findOne({ email });
 
@@ -27,6 +27,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             projects: []
         });
 
+        client.close();
         res.status(200).json(response.ops[0]);
     } else if (req.method === 'GET') {
         const { email } = req.query;
@@ -36,7 +37,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
-        const { db } = await connect();
+        const { db, client } = await connect();
 
         const user = await db.collection('users').findOne({ email });
 
@@ -45,6 +46,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
+        client.close();
         res.status(200).json(user);
     }
 };

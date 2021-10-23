@@ -12,7 +12,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
-        const { db } = await connect();
+        const { db, client } = await connect();
 
         const user = await db.collection('users').findOne({ email });
 
@@ -43,6 +43,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             { $push: { tasks: task.ops[0]._id.toString() } }
         );
 
+        client.close();
         res.status(200).json(task.ops[0]);
     } else if (req.method === 'GET') {
         const { id } = req.query;
@@ -52,7 +53,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
-        const { db } = await connect();
+        const { db, client } = await connect();
 
         const task = await db.collection('tasks').findOne({ _id: new ObjectID(id) });
 
@@ -60,6 +61,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             res.status(400).json({ error: 'Id not found' });
         }
 
+        client.close();
         res.status(200).json(task);
     } else if (req.method === 'PUT') {
         const { id } = req.query;
@@ -70,7 +72,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
-        const { db } = await connect();
+        const { db, client } = await connect();
 
         const task = await db.collection('tasks').findOne({ _id: new ObjectID(id) });
         
@@ -113,9 +115,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             );
         }
 
-
         const taskUpdated = await db.collection('tasks').findOne({ _id: new ObjectID(id) });
 
+        client.close();
         res.status(200).json(taskUpdated);
     }
 };

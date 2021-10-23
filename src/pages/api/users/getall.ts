@@ -3,7 +3,7 @@ import connect from '../../../services/database';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === 'GET') {
-        const { db } = await connect();
+        const { db, client } = await connect();
 
         const users = await db.collection('users').find().toArray();
 
@@ -12,6 +12,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
+        client.close();
         res.status(200).json(users);
     };
 };

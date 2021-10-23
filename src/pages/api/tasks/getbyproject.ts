@@ -11,7 +11,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
-        const { db } = await connect();
+        const { db, client } = await connect();
 
         const project = await db.collection('projects').findOne({ _id: new ObjectID(id) });
 
@@ -21,6 +21,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             return await db.collection('tasks').findOne({ _id: new ObjectID(p) });
         }));
         
+        client.close();
         res.status(200).json(tasks);
     }
 };
