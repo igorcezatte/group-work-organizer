@@ -4,14 +4,14 @@ import connect from '../../../services/database';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === 'POST') {
-        const { name, ownerId, course, teacherName, users } = req.body;
+        const { title, ownerId, course, teacherName, deadline, users } = req.body;
 
-        if (!name || !ownerId || !course) {
+        if (!title || !ownerId) {
             res.status(400).json({ error: 'Missing body parameter' });
             return;
         }
 
-        const { db } = await connect();
+        const { db, client } = await connect();
 
         const owner = await db.collection('users').findOne({ _id: new ObjectID(ownerId) });
 
@@ -21,10 +21,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         const project = await db.collection("projects").insertOne({
-            name,
+            title,
             ownerId,
             course,
             teacherName,
+            deadline,
             users: [],
             tasks: [],
             createdAt: Date.now()
@@ -34,7 +35,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             { _id: new ObjectID(ownerId) },
             { $push: { projects: project.ops[0]._id.toString() } }
         );
-
+        
+        client.close();
         res.status(200).json(project.ops[0]);
     } else if (req.method === 'GET') {
         const { id } = req.query;
@@ -44,7 +46,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
-        const { db } = await connect();
+        const { db, client } = await connect();
 
         const project = await db.collection('projects').findOne({ _id: new ObjectID(id) });
 
@@ -52,6 +54,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             res.status(400).json({ error: 'Id not found' });
         }
 
+        client.close();
         res.status(200).json(project);
     } else if (req.method === 'PUT') {
         const { id } = req.query;
@@ -62,7 +65,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
-        const { db } = await connect();
+        const { db, client } = await connect();
 
         const project = await db.collection('projects').findOne({ _id: new ObjectID(id) });
         const user = await db.collection('users').findOne({ email });
@@ -96,6 +99,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         const projectUpdated = await db.collection('projects').findOne({ _id: new ObjectID(id) });
 
+        client.close();
         res.status(200).json(projectUpdated);
     }
 };

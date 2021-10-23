@@ -45,7 +45,7 @@ export default function Login() {
       >
         <LogoImage src={logo.src} width={100} />
 
-        <TextField
+        {/* <TextField
           name="email"
           type="email"
           label="Email"
@@ -63,7 +63,7 @@ export default function Login() {
 
         <Button type="submit" variant="contained">
           Login
-        </Button>
+        </Button> */}
 
         <Button
           sx={{ display: 'flex', alignItems: 'center' }}

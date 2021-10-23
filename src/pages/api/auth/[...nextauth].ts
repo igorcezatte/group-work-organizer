@@ -26,7 +26,6 @@ export default NextAuth({
   callbacks: {
     async signIn(user, account, profile) {
       const { id, email, name, image } = user;
-      console.log(user);
 
       try {
         const { db } = await connect();

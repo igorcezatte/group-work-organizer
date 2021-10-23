@@ -3,7 +3,9 @@ import { Layout } from '@components/Layout';
 import { getSession } from 'next-auth/client';
 import { api } from '../../services/api';
 import Head from 'next/head';
+import { Button } from '@mui/material';
 
+import { NewProjectModal } from '../../components/NewProjectModal';
 import { ProjectCard } from '../../components/ProjectCard';
 interface Project {
   _id: string;
@@ -16,10 +18,14 @@ interface Project {
 
 export default function Projects({ session }) {
   const [projects, setProjects] = useState<Project[]>([]);
+  const [isNewProjectOpen, setIsNewProjectOpen] = useState(false);
+  const handleOpenNewProjectModal = () => setIsNewProjectOpen(true);
+  const handleCloseNewProjectModal = () => setIsNewProjectOpen(false);
+
 
   useEffect(() => {
     async function getProjects() {
-      const response = await api.get<Project[]>('/projects/getbyuser', { params: { email: "igorcezatte@gmail.com" } });
+      const response = await api.get<Project[]>('/projects/getbyuser', { params: { email: session.user.email } });
       setProjects(response.data);
     };
 
@@ -28,7 +34,7 @@ export default function Projects({ session }) {
     } catch (err) {
       console.log(err);
     }
-  }, [session]);
+  }, [session, projects]);
 
   return (
     <Layout>
@@ -36,6 +42,13 @@ export default function Projects({ session }) {
         <title>Projects - GW.Organizer</title>
       </Head>
       <div style={{ display: 'flex' }}>
+        <Button onClick={handleOpenNewProjectModal}>
+          Criar novo Projeto
+        </Button>
+        <NewProjectModal
+            isOpen={isNewProjectOpen}
+            onRequestClose={handleCloseNewProjectModal}
+        />
         {projects.map((project, idx) =>
         (
           <ProjectCard project={project} key={idx} />
