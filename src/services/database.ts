@@ -5,13 +5,13 @@ interface ConnectType {
     client: MongoClient;
 }
 
-const client = new MongoClient(process.env.MONGODB_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
-
 export default async function connect(): Promise<ConnectType> {
-    if(!client.isConnected()) {
+    const client = new MongoClient(process.env.MONGODB_URL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    });
+    
+    if (!client.isConnected()) {
         await client.connect();
     };
 
