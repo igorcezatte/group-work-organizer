@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import { api } from 'src/services/api';
 import { Box } from '@mui/system';
 import { NewTaskModal } from '@components/NewTaskModal';
+import { AddUserModal } from '@components/AddUserModal';
 
 interface Task {
   user: string;
@@ -27,9 +28,13 @@ export interface UserData {
 export default function ProjectPage() {
   const router = useRouter()
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [isNewTaskOpen, setIsNewTaskOpen] = useState(false);
-  const handleOpenNewTaskModal = () => setIsNewTaskOpen(true);
-  const handleCloseNewTaskModal = () => setIsNewTaskOpen(false);
+  const [isNewTaskModalOpen, setIsNewTaskModalOpen] = useState(false);
+  const handleOpenNewTaskModal = () => setIsNewTaskModalOpen(true);
+  const handleCloseNewTaskModal = () => setIsNewTaskModalOpen(false);
+
+  const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
+  const handleOpenAddUserModal = () => setIsAddUserModalOpen(true);
+  const handleCloseAddUserModal = () => setIsAddUserModalOpen(false);
 
   const { id } = router.query
 
@@ -48,7 +53,7 @@ export default function ProjectPage() {
     } catch (err) {
       console.log(err);
     }
-  }, [id, isNewTaskOpen])
+  }, [id, isNewTaskModalOpen])
 
   return (
     <Layout>
@@ -68,10 +73,21 @@ export default function ProjectPage() {
             Criar nova Task
           </Button>
           <NewTaskModal
-            isOpen={isNewTaskOpen}
+            isOpen={isNewTaskModalOpen}
             onRequestClose={handleCloseNewTaskModal}
           />
         </Box>
+
+        <Box>
+          <Button onClick={handleOpenAddUserModal}>
+            Adicionar participante
+          </Button>
+          <AddUserModal
+            isOpen={isAddUserModalOpen}
+            onRequestClose={handleCloseAddUserModal}
+          />
+        </Box>
+
         <ProjectBoard tasks={tasks} />
       </Box>
     </Layout>
