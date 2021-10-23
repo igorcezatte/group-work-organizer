@@ -11,10 +11,10 @@ import {
 export const themeOptions: ThemeOptions = {
   palette: {
     primary: {
-      main: '#db5d43',
+      main: '#001B2E',
     },
     secondary: {
-      main: '#e8a94d',
+      main: '#294C60',
     },
     background: {
       default: '#f5f5f5',

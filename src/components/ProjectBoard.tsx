@@ -1,4 +1,4 @@
-import { Paper } from '@mui/material';
+import { Paper, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { DragDropContext, Draggable } from 'react-beautiful-dnd';
 import { TASK_STATUS, useManageTasks } from 'src/hooks/useManageTasks';
@@ -24,24 +24,28 @@ export function ProjectBoard({ tasks }) {
         {TASK_STATUS.map((status) => (
           <ProjectBoardColumn key={status} dropId={status}>
             <TaskList>
-              {tasksByStatus[status].map((task, index) => (
-                <Draggable
-                  key={task._id}
-                  draggableId={task._id.toString()}
-                  index={index}
-                >
-                  {(provided) => (
-                    <Paper
-                      sx={{ margin: '1rem' }}
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                    >
-                      <TaskItem task={task} />
-                    </Paper>
-                  )}
-                </Draggable>
-              ))}
+              {tasksByStatus[status].length !== 0 ? (
+                tasksByStatus[status].map((task, index) => (
+                  <Draggable
+                    key={task._id}
+                    draggableId={task._id.toString()}
+                    index={index}
+                  >
+                    {(provided) => (
+                      <Paper
+                        sx={{ margin: '1rem' }}
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <TaskItem task={task} />
+                      </Paper>
+                    )}
+                  </Draggable>
+                ))
+              ) : (
+                <Typography>No tasks</Typography>
+              )}
             </TaskList>
           </ProjectBoardColumn>
         ))}

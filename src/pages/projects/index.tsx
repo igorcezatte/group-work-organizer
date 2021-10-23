@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Layout } from '@components/Layout';
-import { getSession } from 'next-auth/client';
 import { api } from '../../services/api';
 import Head from 'next/head';
 import { Button, Paper, Typography } from '@mui/material';
@@ -11,24 +10,21 @@ import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { getSessionWithRedirect } from '@utils/auth';
 import { Box } from '@mui/system';
 import { CreateNewProjectForm } from '@components/CreateNewProjectForm';
+import { useTheme } from '@emotion/react';
 interface Project {
   _id: string;
   title: string;
   course: string;
   ownerId: string;
+  teacherName: string;
   deadline: Date;
   status: string;
+  users: string[];
 }
-
-const messages = {
-  createNewProject: 'Create new project',
-};
 
 export default function Projects({ session }) {
   const [projects, setProjects] = useState<Project[]>([]);
   const [isNewProjectOpen, setIsNewProjectOpen] = useState(false);
-  const handleOpenNewProjectModal = () => setIsNewProjectOpen(true);
-  const handleCloseNewProjectModal = () => setIsNewProjectOpen(false);
 
   useEffect(() => {
     async function getProjects() {
@@ -50,17 +46,31 @@ export default function Projects({ session }) {
       <Head>
         <title>Projects - GW.Organizer</title>
       </Head>
-      <Box display="flex" flexDirection="column" width="100%">
-        {/* <Button onClick={handleOpenNewProjectModal}>
-          {messages.createNewProject}
-        </Button> */}
-        {/* <NewProjectModal
-          isOpen={isNewProjectOpen}
-          onRequestClose={handleCloseNewProjectModal}
-        /> */}
+      <Box display="flex" flexDirection="column" width="100%" height="100%">
         <CreateNewProjectForm />
-        <Paper sx={{ padding: '1rem', marginTop: '1rem' }}>
-          <Typography variant="h5">Projects</Typography>
+        <Paper
+          sx={{
+            padding: '0 1rem 1rem 1rem',
+            marginTop: '1rem',
+            overflow: 'auto',
+            display: 'flex',
+            flexDirection: 'column',
+            rowGap: '1rem',
+          }}
+        >
+          <Typography
+            sx={{
+              position: 'sticky',
+              top: 0,
+              right: 0,
+              padding: '1rem 0',
+              backgroundColor: 'background.paper',
+            }}
+            variant="h5"
+            gutterBottom
+          >
+            Projects
+          </Typography>
           {projects.map((project, idx) => (
             <ProjectCard project={project} key={project._id} />
           ))}
