@@ -41,7 +41,7 @@ export function CreateNewProjectForm() {
       },
     });
 
-  const [isIn, collapseHandlers] = useToggle(true);
+  const [isIn, collapseHandlers] = useToggle(false);
 
   const [session] = useSession();
 
@@ -57,7 +57,7 @@ export function CreateNewProjectForm() {
           Create New Project
         </Typography>
         <IconButton onClick={collapseHandlers.toggle}>
-          {isIn ? <KeyboardArrowDown /> : <KeyboardArrowUp />}
+          {isIn ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
         </IconButton>
       </Box>
       <Collapse in={isIn}>

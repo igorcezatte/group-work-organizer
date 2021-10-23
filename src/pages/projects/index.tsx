@@ -65,6 +65,7 @@ export default function Projects({ session }) {
               right: 0,
               padding: '1rem 0',
               backgroundColor: 'background.paper',
+              zIndex: 9999,
             }}
             variant="h5"
             gutterBottom
