@@ -13,7 +13,14 @@ export function ProjectBoard({ tasks }) {
 
   return (
     <DragDropContext onDragEnd={drag}>
-      <Box display="flex" columnGap="2rem">
+      <Box
+        display="flex"
+        columnGap="2rem"
+        padding="1rem"
+        width="100%"
+        flex={1}
+        overflow="auto"
+      >
         {TASK_STATUS.map((status) => (
           <ProjectBoardColumn key={status} dropId={status}>
             <TaskList>
