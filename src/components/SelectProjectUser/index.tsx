@@ -8,6 +8,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { useTheme } from '@mui/material/styles';
 
 import { api } from 'src/services/api';
+import { useRouter } from 'next/router';
 
 function getStyles(name, personName, theme) {
     return {
@@ -25,14 +26,16 @@ interface User {
 }
 
 export function SelectProjectUser() {
+    const router = useRouter();
     const [users, setUsers] = useState([]);
     const theme = useTheme();
     const [personName, setPersonName] = useState('');
 
+    const { id } = router.query;
 
     useEffect(() => {
         async function getUsers() {
-            const response = await api.get<User[]>('/users/getall');
+            const response = await api.get<User[]>('/users/getall', { params: { projectId: id } });
 
             setUsers(response.data);
         };
@@ -41,7 +44,7 @@ export function SelectProjectUser() {
         } catch (err) {
             console.log(err);
         }
-    },[]);
+    }, [id]);
 
     const handleChange = (event) => {
         setPersonName(event.target.value);
