@@ -14,17 +14,22 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const { db, client } = await connect();
 
         const user = await db.collection('users').findOne({ email });
+        const userId = user._id.toString();
 
-        if (!user.projects) {
-            res.status(200);
-            return;
-        }
+        const p2 = await db.collection('projects').find({ owner: [user._id] });
+        const projects = await db.collection('projects').find({ users: [userId] }).toArray();
+        console.log('p2: ', p2);
 
-        const userProjects = user.projects;
+        // if (!user.projects) {
+        //     res.status(200);
+        //     return;
+        // }
 
-        const projects = await Promise.all(userProjects.map(async p => {
-            return await db.collection('projects').findOne({ _id: new ObjectID(p) });
-        }));
+        // const userProjects = user.projects;
+
+        // const projects = await Promise.all(userProjects.map(async p => {
+        //     return await db.collection('projects').findOne({ _id: new ObjectID(p) });
+        // }));
 
         client.close();
         res.status(200).json(projects);
