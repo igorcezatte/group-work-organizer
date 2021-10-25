@@ -16,9 +16,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const user = await db.collection('users').findOne({ email });
         const userId = user._id.toString();
 
-
         const pOwner = await db.collection('projects').find({ ownerId: userId }).toArray();
-        const pParticipant = await db.collection('projects').find({ users: [userId] }).toArray();
+        const pParticipant = await db.collection('projects').find({ users: { $in: [userId] } }).toArray();
         const projects = pOwner.concat(pParticipant);
 
         client.close();
