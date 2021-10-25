@@ -9,7 +9,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         const allUsers = await db.collection('users').find().toArray();
         const project = await db.collection('projects').findOne({ _id: new ObjectID(projectId) });
-        console.log(projectId);
         
         const usersIdString = allUsers.map(r => r._id.toString());
 

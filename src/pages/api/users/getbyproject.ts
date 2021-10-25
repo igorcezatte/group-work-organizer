@@ -1,3 +1,4 @@
+import { ObjectID } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
 import connect from '../../../services/database';
 
@@ -12,7 +13,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         const { db, client } = await connect();
 
-        const users = await db.collection('users').find({ projects: [id] }).toArray();
+        const project = await db.collection('projects').findOne({ _id: new ObjectID(id) });
+
+        const users = await Promise.all(project.users.map(async p => {
+            return await db.collection('users').findOne({ _id: new ObjectID(p) });
+        }));
 
         if (!res) {
             res.status(400).json({ error: 'Id not found' });

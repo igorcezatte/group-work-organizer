@@ -82,7 +82,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     const userId = user._id.toString();
-    const projectId = project._id.toString();
 
     if (project.users.includes(userId) || project.ownerId === userId) {
       {
@@ -97,12 +96,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         $push: { users: userId },
       }
     );
-    await db
-      .collection('users')
-      .updateOne(
-        { _id: new ObjectID(userId) },
-        { $push: { projects: projectId } }
-      );
 
     const projectUpdated = await db
       .collection('projects')
