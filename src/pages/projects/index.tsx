@@ -1,16 +1,17 @@
-import { useEffect, useState } from 'react';
-import { Layout } from '@components/Layout';
-import { api } from '../../services/api';
+import { GetServerSideProps } from 'next';
+import { getSession } from 'next-auth/client';
 import Head from 'next/head';
-import { Button, Paper, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
 
-import { NewProjectModal } from '../../components/NewProjectModal';
-import { ProjectCard } from '../../components/ProjectCard';
-import { GetServerSideProps, GetServerSidePropsContext } from 'next';
-import { getSessionWithRedirect } from '@utils/auth';
-import { Box } from '@mui/system';
 import { CreateNewProjectForm } from '@components/CreateNewProjectForm';
-import { useTheme } from '@emotion/react';
+import { Layout } from '@components/Layout';
+import { Paper, Typography } from '@mui/material';
+import { Box } from '@mui/system';
+import { getProtectedServerSideProps } from '@utils/auth';
+
+import { ProjectCard } from '../../components/ProjectCard';
+import { api } from '../../services/api';
+
 interface Project {
   _id: string;
   title: string;
@@ -81,10 +82,11 @@ export default function Projects({ session }) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await getSessionWithRedirect(context);
+export const getServerSideProps: GetServerSideProps =
+  getProtectedServerSideProps(async (context) => {
+    const session = await getSession(context);
 
-  return {
-    props: { session },
-  };
-};
+    return {
+      props: { session },
+    };
+  });

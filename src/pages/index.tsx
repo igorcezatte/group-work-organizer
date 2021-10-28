@@ -1,15 +1,17 @@
-import { getSessionWithRedirect } from '@utils/auth';
+import { GetServerSideProps } from 'next';
+
+import { getProtectedServerSideProps } from '@utils/auth';
 
 export default function Home() {
   return null;
 }
 
-export async function getServerSideProps(context) {
-  await getSessionWithRedirect(context);
-  return {
-    redirect: {
-      destination: '/projects',
-      permanent: false,
-    },
-  };
-}
+export const getServerSideProps: GetServerSideProps =
+  getProtectedServerSideProps(async () => {
+    return {
+      redirect: {
+        destination: '/projects',
+        permanent: false,
+      },
+    };
+  });
