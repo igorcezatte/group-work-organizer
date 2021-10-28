@@ -1,18 +1,18 @@
+import { GetServerSideProps } from 'next';
+import { getSession } from 'next-auth/client';
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
-
-import { ProjectBoard } from '@components/ProjectBoard';
-import { Layout } from '@components/Layout';
-import Button from '@mui/material/Button';
+import { useEffect, useState } from 'react';
 import { api } from 'src/services/api';
-import { Box } from '@mui/system';
-import { NewTaskModal } from '@components/NewTaskModal';
-import { AddUserModal } from '@components/AddUserModal';
 
-import { getSessionWithRedirect } from '@utils/auth';
+import { AddUserModal } from '@components/AddUserModal';
+import { Layout } from '@components/Layout';
 import { NavLink } from '@components/NavLink';
+import { NewTaskModal } from '@components/NewTaskModal';
+import { ProjectBoard } from '@components/ProjectBoard';
+import Button from '@mui/material/Button';
+import { Box } from '@mui/system';
+import { getProtectedServerSideProps } from '@utils/auth';
 
 interface Task {
   user: string;
@@ -93,9 +93,11 @@ export default function ProjectPage() {
   );
 }
 
-export async function getServerSideProps(context) {
-  const session = await getSessionWithRedirect(context);
-  return {
-    props: { session },
-  };
-}
+export const getServerSideProps: GetServerSideProps =
+  getProtectedServerSideProps(async (context) => {
+    const session = await getSession(context);
+
+    return {
+      props: { session },
+    };
+  });

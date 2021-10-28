@@ -1,20 +1,21 @@
-import { GetServerSidePropsContext } from 'next';
+import { GetServerSideProps } from 'next';
 import { getSession } from 'next-auth/client';
 
-export async function getSessionWithRedirect(
-  context: GetServerSidePropsContext,
-  { redirectPath = '/login' } = {}
-) {
-  const session = await getSession(context);
+export function getProtectedServerSideProps(
+  asyncFn?: GetServerSideProps
+): GetServerSideProps {
+  return async (context, ...rest) => {
+    const session = await getSession(context);
 
-  if (!session) {
-    return {
-      redirect: {
-        destination: redirectPath,
-        permanent: false,
-      },
-    };
-  }
+    if (!session) {
+      return {
+        redirect: {
+          destination: '/login',
+          permanent: false,
+        },
+      };
+    }
 
-  return session;
+    return await asyncFn(context, ...rest);
+  };
 }
