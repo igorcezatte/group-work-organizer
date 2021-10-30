@@ -40,7 +40,7 @@ export default function Projects({ session }) {
     } catch (err) {
       console.log(err);
     }
-  }, [session, isNewProjectOpen]);
+  }, [session, projects]);
 
   return (
     <Layout>
