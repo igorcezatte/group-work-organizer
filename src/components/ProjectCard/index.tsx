@@ -57,7 +57,7 @@ export function ProjectCard({ project }: ProjectItemProps) {
                 color="text.secondary"
                 variant="body2"
               >
-                Due date: {new Date(project.deadline).toLocaleDateString()}
+                Data de entrega: {new Date(project.deadline).toLocaleDateString()}
               </Typography>
               <AvatarGroup>
                 <UserAvatar userId={project.ownerId} />
