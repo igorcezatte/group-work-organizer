@@ -54,7 +54,7 @@ export function CreateNewProjectForm() {
     >
       <Box display="flex" alignItems="center">
         <Typography variant="h5" sx={{ padding: '1rem' }}>
-          Create New Project
+          Criar novo projeto
         </Typography>
         <IconButton onClick={collapseHandlers.toggle}>
           {isIn ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
@@ -70,7 +70,7 @@ export function CreateNewProjectForm() {
         >
           <Box display="grid" rowGap="2rem">
             <TextField
-              placeholder="Title"
+              placeholder="Título"
               name="title"
               type="text"
               label="Título"
@@ -81,10 +81,10 @@ export function CreateNewProjectForm() {
               }}
             />
             <TextField
-              placeholder="Course"
+              placeholder="Curso"
               name="course"
               type="text"
-              label="Course"
+              label="Curso"
               value={formValues.course}
               onChange={handleChange}
               InputLabelProps={{
@@ -94,10 +94,10 @@ export function CreateNewProjectForm() {
           </Box>
           <Box display="grid" rowGap="2rem">
             <TextField
-              placeholder="Teacher Name"
+              placeholder="Nome do professor"
               name="teacherName"
               type="text"
-              label="Teacher Name"
+              label="Nome do professor"
               value={formValues.teacherName}
               onChange={handleChange}
               InputLabelProps={{
@@ -105,10 +105,10 @@ export function CreateNewProjectForm() {
               }}
             />
             <TextField
-              placeholder="Deadline"
+              placeholder="Data de entrega"
               name="deadline"
               type="date"
-              label="Deadline"
+              label="Data de entrega"
               value={parseDate(formValues.deadline).inputFormat}
               onChange={(event) =>
                 setFieldValue(
@@ -122,7 +122,7 @@ export function CreateNewProjectForm() {
             />
           </Box>
           <Button type="submit" size="large" variant="contained">
-            Create
+            Criar
           </Button>
         </Box>
       </Collapse>

@@ -71,7 +71,7 @@ export default function Projects({ session }) {
             variant="h5"
             gutterBottom
           >
-            Projects
+            Projetos
           </Typography>
           {projects.map((project, idx) => (
             <ProjectCard project={project} key={project._id} />

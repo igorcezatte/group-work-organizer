@@ -14,7 +14,11 @@ export function ProjectBoardColumn({
   return (
     <Paper sx={{ display: 'flex', flexDirection: 'column' }}>
       <Typography padding="1rem" variant="h6">
-        {startCase(dropId)}
+        {startCase(dropId) === 'Todo' ? 'A fazer' :
+        startCase(dropId) === 'In Progress' ? 'Em andamento' :
+        startCase(dropId) === 'Blocked' ? 'Bloqueado' :
+        startCase(dropId) === 'Completed' ? 'Finalizado' :
+        startCase(dropId)}
       </Typography>
       <Divider />
       <Droppable droppableId={dropId}>

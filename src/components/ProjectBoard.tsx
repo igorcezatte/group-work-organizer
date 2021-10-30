@@ -44,7 +44,7 @@ export function ProjectBoard({ tasks }) {
                   </Draggable>
                 ))
               ) : (
-                <Typography>No tasks</Typography>
+                <Typography>Sem tasks</Typography>
               )}
             </TaskList>
           </ProjectBoardColumn>
