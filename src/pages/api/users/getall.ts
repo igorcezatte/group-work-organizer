@@ -13,7 +13,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const usersIdString = allUsers.map(r => r._id.toString());
 
         const usersOutProject = usersIdString.filter(user => {
-            if (project.users.includes(user)) {
+            if (project.users.includes(user) || project.ownerId === user) {
                 return;
             }
 
