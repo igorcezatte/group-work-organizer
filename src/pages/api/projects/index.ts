@@ -30,12 +30,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             tasks: [],
             createdAt: Date.now()
         });
-
-        await db.collection("users").updateOne(
-            { _id: new ObjectID(ownerId) },
-            { $push: { projects: project.ops[0]._id.toString() } }
-        );
-        
+      
         client.close();
         res.status(200).json(project.ops[0]);
     } else if (req.method === 'GET') {
