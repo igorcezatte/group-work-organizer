@@ -7,26 +7,16 @@ import {
   Typography,
   Button,
 } from '@mui/material';
-import { Task } from 'src/hooks/useManageTasks';
 import { TaskModal } from './TaskModal';
+import { Task } from 'src/types';
 
 type TaskItemProps = {
   task: Task;
 };
 
 export function TaskItem({ task }: TaskItemProps) {
-  const [isTaskModalOpen, setIsTaskModalOpen] = React.useState(false);
-  const handleOpenTaskModal = () => setIsTaskModalOpen(true);
-  const handleCloseTaskModal = () => setIsTaskModalOpen(false);
-
   return (
     <ListItem alignItems="flex-start">
-      <Button onClick={handleOpenTaskModal} variant="contained">Editar</Button>
-      <TaskModal
-        isOpen={isTaskModalOpen}
-        onRequestClose={handleCloseTaskModal}
-        task={task}
-      />
       <ListItemAvatar>
         <Avatar src={task.userImage} alt="Ash Ketchun" />
       </ListItemAvatar>
@@ -43,6 +33,7 @@ export function TaskItem({ task }: TaskItemProps) {
           </Typography>
         }
       />
+      <TaskModal task={task} />
     </ListItem>
   );
 }

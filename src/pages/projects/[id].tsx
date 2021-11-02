@@ -31,13 +31,6 @@ export interface UserData {
 export default function ProjectPage() {
   const router = useRouter();
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [isNewTaskModalOpen, setIsNewTaskModalOpen] = useState(false);
-  const handleOpenNewTaskModal = () => setIsNewTaskModalOpen(true);
-  const handleCloseNewTaskModal = () => setIsNewTaskModalOpen(false);
-
-  const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
-  const handleOpenAddUserModal = () => setIsAddUserModalOpen(true);
-  const handleCloseAddUserModal = () => setIsAddUserModalOpen(false);
 
   const { id } = router.query;
 
@@ -58,7 +51,7 @@ export default function ProjectPage() {
     } catch (err) {
       console.log(err);
     }
-  }, [id, isNewTaskModalOpen]);
+  }, [id]);
 
   return (
     <Layout>
@@ -66,27 +59,23 @@ export default function ProjectPage() {
         <title>Project - GW.Organizer</title>
       </Head>
       <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-        <NavLink href="/projects">
-          <Button>Voltar</Button>
-        </NavLink>
-        <Box>
-          <Button onClick={handleOpenNewTaskModal}>Criar nova Task</Button>
-          <NewTaskModal
-            isOpen={isNewTaskModalOpen}
-            onRequestClose={handleCloseNewTaskModal}
-          />
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            padding: '0 1rem',
+          }}
+        >
+          <NavLink href="/projects">
+            <Button color="secondary" variant="contained">
+              Voltar
+            </Button>
+          </NavLink>
+          <Box sx={{ display: 'flex', columnGap: '1rem' }}>
+            <NewTaskModal />
+            <AddUserModal />
+          </Box>
         </Box>
-
-        <Box>
-          <Button onClick={handleOpenAddUserModal}>
-            Adicionar participante
-          </Button>
-          <AddUserModal
-            isOpen={isAddUserModalOpen}
-            onRequestClose={handleCloseAddUserModal}
-          />
-        </Box>
-
         <ProjectBoard tasks={tasks} />
       </Box>
     </Layout>

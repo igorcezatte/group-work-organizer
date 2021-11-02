@@ -11,25 +11,14 @@ import { getProtectedServerSideProps } from '@utils/auth';
 
 import { ProjectCard } from '../../components/ProjectCard';
 import { api } from '../../services/api';
-
-interface Project {
-  _id: string;
-  title: string;
-  course: string;
-  ownerId: string;
-  teacherName: string;
-  deadline: Date;
-  status: string;
-  users: string[];
-}
+import { Projects as ProjectList } from 'src/types';
 
 export default function Projects({ session }) {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [isNewProjectOpen, setIsNewProjectOpen] = useState(false);
+  const [projects, setProjects] = useState<ProjectList>([]);
 
   useEffect(() => {
     async function getProjects() {
-      const response = await api.get<Project[]>('/projects/getbyuser', {
+      const response = await api.get<ProjectList>('/projects/getbyuser', {
         params: { email: session.user.email },
       });
       setProjects(response.data);

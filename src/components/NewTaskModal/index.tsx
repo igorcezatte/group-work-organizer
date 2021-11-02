@@ -1,105 +1,139 @@
-import { useForm } from '@hooks/useForm';
-import { Paper, TextField, Button, Box } from '@mui/material';
-import Modal from '@mui/material/Modal';
+import * as React from 'react';
 import { useRouter } from 'next/router';
 import { api } from 'src/services/api';
 
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
+import { useForm } from '@hooks/useForm';
+import { useToggle } from '@hooks/useToggle';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Typography,
+} from '@mui/material';
 
 interface NewTaskFormValues {
-    email: string;
-    title: string;
-    description: string;
+  email: string;
+  title: string;
+  description: string;
 }
 
-interface NewTaskModalProps {
-    isOpen: boolean;
-    onRequestClose: () => void;
-}
+async function createTask(
+  projectId: string | string[],
+  task: NewTaskFormValues
+) {
+  const email = task.email;
+  const title = task.title;
+  const description = task.description;
 
-export function NewTaskModal({ isOpen, onRequestClose }: NewTaskModalProps) {
-    const router = useRouter()
-    const { formValues, handleChange, onSubmit } = useForm<NewTaskFormValues>({
-        initialValues: {
-            email: '',
-            title: '',
-            description: ''
-        },
+  try {
+    return await api.post(`/tasks?projectId=${projectId}`, {
+      email,
+      title,
+      description,
     });
+  } catch (err) {
+    console.log(err);
+  }
+}
 
-    const { id } = router.query
+export function NewTaskModal() {
+  const router = useRouter();
+  const [open, { on: openAddNewUserForm, off: closeAddNewUserForm }] =
+    useToggle(false);
 
-    async function CreateTask(task: NewTaskFormValues) {
-        const email = task.email;
-        const title = task.title;
-        const description = task.description;
+  const { formValues, handleChange, onSubmit } = useForm<NewTaskFormValues>({
+    initialValues: {
+      email: '',
+      title: '',
+      description: '',
+    },
+  });
+  const { id } = router.query;
 
-        try {
-            await api.post(`/tasks?projectId=${id}`, { email, title, description });
-            onRequestClose();
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
-    return (
-        <Modal
-            open={isOpen}
-            onClose={onRequestClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-        >
-            <Box sx={style}>
-                <Paper
-                    component="form"
-                    onSubmit={onSubmit((formValues) => {
-                        CreateTask(formValues)
-                    })}
-                >
-                    <h2>Cadastrar nova task</h2>
-
-                    {/* <SelectTaskUser /> */}
-
-                    <TextField
-                        placeholder="Email"
-                        name="email"
-                        type="email"
-                        label="Email"
-                        value={formValues.email}
-                        onChange={handleChange}
-                    />
-                    <TextField
-                        placeholder="Título"
-                        name="title"
-                        type="title"
-                        label="Título"
-                        value={formValues.title}
-                        onChange={handleChange}
-                    />
-                    <TextField
-                        placeholder="Descrição"
-                        name="description"
-                        type="description"
-                        label="Descrição"
-                        value={formValues.description}
-                        onChange={handleChange}
-                    />
-
-                    <Button type="submit" variant="contained">
-                        Cadastrar
-                    </Button>
-                </Paper>
+  return (
+    <Box>
+      <Button
+        color="secondary"
+        variant="contained"
+        onClick={openAddNewUserForm}
+      >
+        Adicionar nova tarefa
+      </Button>
+      <Dialog
+        open={open}
+        onClose={closeAddNewUserForm}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          <Typography variant="button">Adicionar Nova Tarefa</Typography>
+        </DialogTitle>
+        <DialogContent>
+          <Box
+            id="new-task-form"
+            component="form"
+            onSubmit={onSubmit(async (formValues) => {
+              await createTask(id, formValues);
+              closeAddNewUserForm();
+            })}
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              rowGap: '1rem',
+              padding: '1rem 0 ',
+            }}
+          >
+            <Box sx={{ display: 'flex', columnGap: '1rem' }}>
+              <TextField
+                placeholder="Email"
+                name="email"
+                type="email"
+                label="Email"
+                value={formValues.email}
+                onChange={handleChange}
+                InputLabelProps={{ shrink: true }}
+              />
+              <TextField
+                placeholder="Título"
+                name="title"
+                type="text"
+                label="Título"
+                value={formValues.title}
+                onChange={handleChange}
+                InputLabelProps={{ shrink: true }}
+              />
             </Box>
-        </Modal>
-    )
+            <TextField
+              placeholder="Descrição"
+              multiline
+              fullWidth
+              name="description"
+              type="text"
+              label="Descrição"
+              value={formValues.description}
+              onChange={handleChange}
+              InputLabelProps={{ shrink: true }}
+            />
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            type="button"
+            form="new-task-form"
+            variant="contained"
+            onClick={closeAddNewUserForm}
+          >
+            Cancelar
+          </Button>
+          <Button type="submit" form="new-task-form" variant="contained">
+            Adicionar
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Box>
+  );
 }

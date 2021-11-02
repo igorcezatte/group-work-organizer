@@ -1,30 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { DropResult } from 'react-beautiful-dnd';
 import { api } from 'src/services/api';
+import { Task, Tasks, TaskStatus, TASK_STATUS } from 'src/types';
 
-export const TASK_STATUS = [
-  'todo',
-  'in-progress',
-  'blocked',
-  'completed',
-] as const;
-
-export type TaskStatus = typeof TASK_STATUS[number];
-
-export type Task = {
-  _id: string;
-  title: string;
-  description?: string;
-  user?: string;
-  projectId: string;
-  status: TaskStatus;
-  userName: string;
-  userImage: string;
-};
-
-type CreateTaskParam = Pick<Task, 'user' | 'title' | 'status' | 'projectId' | 'userName' | 'userImage'>;
-
-export type Tasks = Task[];
+type CreateTaskParam = Pick<
+  Task,
+  'user' | 'title' | 'status' | 'projectId' | 'userName' | 'userImage'
+>;
 
 type TasksByStatusLookup = Record<TaskStatus, Tasks>;
 
@@ -33,9 +15,9 @@ function createTask(task: CreateTaskParam): Task {
     _id: Date.now().valueOf().toString(),
     ...task,
   };
-};
+}
 
-async function updateTask(id, destination) {
+async function updateTask(id: string, destination: string) {
   await api.put('/tasks/movetask', { id, destination });
 }
 
@@ -64,7 +46,9 @@ export function useManageTasks(taskList: Tasks = []) {
 
   const edit = (id: string, editedTask: Partial<Task>) =>
     setTasks(($tasks) =>
-      $tasks.map((task) => (task._id === id ? { ...task, ...editedTask } : task))
+      $tasks.map((task) =>
+        task._id === id ? { ...task, ...editedTask } : task
+      )
     );
 
   const remove = (id: string) =>

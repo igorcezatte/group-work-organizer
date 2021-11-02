@@ -7,10 +7,11 @@ export default class MyDocument extends Document {
 
     ctx.renderPage = () =>
       originalRenderPage({
-        enhanceApp: (App) => (props) => {
-          resetServerContext();
-          return <App {...props} />;
-        },
+        enhanceApp: (App) =>
+          function EnhancedApp(props) {
+            resetServerContext();
+            return <App {...props} />;
+          },
       });
 
     const initialProps = await Document.getInitialProps(ctx);

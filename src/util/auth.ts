@@ -4,7 +4,7 @@ import { getSession } from 'next-auth/client';
 export function getProtectedServerSideProps(
   asyncFn?: GetServerSideProps
 ): GetServerSideProps {
-  return async (context, ...rest) => {
+  return async (context) => {
     const session = await getSession(context);
 
     if (!session) {
@@ -16,6 +16,6 @@ export function getProtectedServerSideProps(
       };
     }
 
-    return await asyncFn(context, ...rest);
+    return await asyncFn(context);
   };
 }

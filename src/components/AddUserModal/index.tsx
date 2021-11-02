@@ -1,72 +1,99 @@
 import { SelectProjectUser } from '@components/SelectProjectUser';
 import { useForm } from '@hooks/useForm';
-import { Paper, TextField, Button, Box } from '@mui/material';
-import Modal from '@mui/material/Modal';
+import { useToggle } from '@hooks/useToggle';
 import { api } from 'src/services/api';
+import * as React from 'react';
+import { useRouter } from 'next/router';
 
-interface AddUserFormValues {
-  email: string;
-}
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Typography,
+} from '@mui/material';
 
-interface AddUserModalProps {
-  isOpen: boolean;
-  onRequestClose: () => void;
-}
+type AddUserFormValues = {
+  user: string;
+};
 
-export function AddUserModal({ isOpen, onRequestClose }: AddUserModalProps) {
-  const { formValues, handleChange, onSubmit } = useForm<AddUserFormValues>({
+async function addUser(projectId: string | string[], task: AddUserFormValues) {}
+
+export function AddUserModal() {
+  const router = useRouter();
+  const [open, { on: openAddNewUserForm, off: closeAddNewUserForm }] =
+    useToggle(false);
+
+  const { formValues, setFieldValue, onSubmit } = useForm<AddUserFormValues>({
     initialValues: {
-      email: '',
+      user: '',
     },
   });
-
-  async function CreateTask(task: AddUserFormValues) {
-    // const email = task.email;
-    // const title = task.title;
-    // const description = task.description;
-    // try {
-    //     await api.post(`/tasks?projectId=${id}`, { email, title, description });
-    //     onRequestClose();
-    // } catch (err) {
-    //     console.log(err);
-    // }
-  }
+  const { id } = router.query;
 
   return (
-    <Modal
-      open={isOpen}
-      onClose={onRequestClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
-      <Box
-        sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 400,
-          bgcolor: 'background.paper',
-          border: '2px solid #000',
-          boxShadow: 24,
-          p: 4,
+    <Box>
+      <Button
+        color="secondary"
+        variant="contained"
+        onClick={openAddNewUserForm}
+      >
+        Adicionar Participante
+      </Button>
+      <Dialog
+        open={open}
+        onClose={closeAddNewUserForm}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        PaperProps={{
+          style: {
+            minWidth: '400px',
+          },
         }}
       >
-        <Paper
-          component="form"
-          onSubmit={onSubmit((formValues) => {
-            CreateTask(formValues);
-          })}
-        >
-          <h2>Adicionar participante</h2>
-
-          <SelectProjectUser />
-
-          <Button type="submit" variant="contained">
+        <DialogTitle id="alert-dialog-title">
+          <Typography variant="button">Adicionar Participante</Typography>
+        </DialogTitle>
+        <DialogContent>
+          <Box
+            id="add-user-form"
+            component="form"
+            onSubmit={onSubmit(async (formValues) => {
+              await addUser(id, formValues);
+              closeAddNewUserForm();
+            })}
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              rowGap: '1rem',
+              padding: '1rem 0 ',
+            }}
+          >
+            <SelectProjectUser
+              name="user"
+              value={formValues.user}
+              onChange={(event) =>
+                setFieldValue('user', event.target.value as string)
+              }
+            />
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            type="button"
+            form="new-task-form"
+            variant="contained"
+            onClick={closeAddNewUserForm}
+          >
+            Cancelar
+          </Button>
+          <Button type="submit" form="add-user-form" variant="contained">
             Adicionar
           </Button>
-        </Paper>
-      </Box>
-    </Modal>
+        </DialogActions>
+      </Dialog>
+    </Box>
   );
 }

@@ -3,16 +3,16 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import { Typography, Card, AvatarGroup, Avatar } from '@mui/material';
 import { NavLink } from '@components/NavLink';
-import { api } from 'src/services/api';
 import { Box } from '@mui/system';
 import { UserAvatar } from '@components/UserAvatar';
+import { parseDate } from '@utils/date';
 
 type ProjectItemProps = {
   project: {
     _id: string;
     title: string;
     ownerId: string;
-    deadline: Date;
+    deadline: string;
     teacherName: string;
     course: string;
     status: string;
@@ -57,7 +57,8 @@ export function ProjectCard({ project }: ProjectItemProps) {
                 color="text.secondary"
                 variant="body2"
               >
-                Data de entrega: {new Date(project.deadline).toLocaleDateString()}
+                Data de entrega:{' '}
+                {parseDate(project.deadline).date.toLocaleDateString}
               </Typography>
               <AvatarGroup>
                 <UserAvatar userId={project.ownerId} />
