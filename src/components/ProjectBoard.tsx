@@ -1,9 +1,9 @@
 import { Paper, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { DragDropContext, Draggable } from 'react-beautiful-dnd';
-import { TASK_STATUS, useManageTasks } from 'src/hooks/useManageTasks';
+import { useManageTasks } from 'src/hooks/useManageTasks';
+import { TASK_STATUS } from 'src/types';
 
-import { FAKE_TASKS } from '../util/data';
 import { ProjectBoardColumn } from './ProjectBoardColumn';
 import { TaskItem } from './TaskItem';
 import TaskList from './TaskList';
@@ -44,7 +44,9 @@ export function ProjectBoard({ tasks }) {
                   </Draggable>
                 ))
               ) : (
-                <Typography>Sem tasks</Typography>
+                <Typography sx={{ color: 'grey.700' }}>
+                  Sem tarefas nesta coluna
+                </Typography>
               )}
             </TaskList>
           </ProjectBoardColumn>
