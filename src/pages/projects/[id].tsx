@@ -66,7 +66,7 @@ export default function ProjectPage() {
             padding: '0 1rem',
           }}
         >
-          <NavLink href="/projects">
+          <NavLink href="/projects" noUnderline>
             <Button color="secondary" variant="contained">
               Voltar
             </Button>
