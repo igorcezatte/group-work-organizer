@@ -34,7 +34,7 @@ export default function Projects({ session }) {
   return (
     <Layout>
       <Head>
-        <title>Projects - GW.Organizer</title>
+        <title>Projects - Unit.e</title>
       </Head>
       <Box display="flex" flexDirection="column" width="100%" height="100%">
         <CreateNewProjectForm />

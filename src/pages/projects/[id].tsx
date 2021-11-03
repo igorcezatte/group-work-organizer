@@ -56,7 +56,7 @@ export default function ProjectPage() {
   return (
     <Layout>
       <Head>
-        <title>Project - GW.Organizer</title>
+        <title>Project - Unit.e</title>
       </Head>
       <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
         <Box

@@ -28,7 +28,7 @@ export default function Login() {
   return (
     <Layout variant="center">
       <Head>
-        <title>Homepage - GW.Organizer</title>
+        <title>Homepage - Unit.e</title>
       </Head>
       <Paper
         component="form"
