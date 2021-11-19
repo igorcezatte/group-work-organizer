@@ -29,7 +29,7 @@ export default function Projects({ session }) {
     } catch (err) {
       console.log(err);
     }
-  }, [session, projects]);
+  }, [session]);
 
   return (
     <Layout>

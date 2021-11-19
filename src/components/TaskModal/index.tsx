@@ -182,11 +182,6 @@ export function TaskModal({ task }: TaskModalProps) {
             <Typography gutterBottom>{task.status}</Typography>
           </TaskContentLayout>
         </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={closeModal}>
-            Save changes
-          </Button>
-        </DialogActions>
       </BootstrapDialog>
     </div>
   );
