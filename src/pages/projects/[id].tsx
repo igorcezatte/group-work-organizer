@@ -72,7 +72,11 @@ export default function ProjectPage() {
             </Button>
           </NavLink>
           <Box sx={{ display: 'flex', columnGap: '1rem' }}>
-            <NewTaskModal />
+            <NewTaskModal onCreateNewTask={() => {
+              api.get<Task[]>('/tasks/getbyproject', {
+                params: { id },
+              }).then((response) => setTasks(response.data));
+            }} />
             <AddUserModal />
           </Box>
         </Box>

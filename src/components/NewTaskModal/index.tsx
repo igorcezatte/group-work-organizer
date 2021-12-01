@@ -23,24 +23,28 @@ interface NewTaskFormValues {
 
 async function createTask(
   projectId: string | string[],
-  task: NewTaskFormValues
+  task: NewTaskFormValues,
+  onCreateNewTask
 ) {
   const email = task.email;
   const title = task.title;
   const description = task.description;
 
   try {
-    return await api.post(`/tasks?projectId=${projectId}`, {
+    await api.post(`/tasks?projectId=${projectId}`, {
       email,
       title,
       description,
     });
+
+    onCreateNewTask();
   } catch (err) {
     console.log(err);
   }
 }
 
-export function NewTaskModal() {
+export function NewTaskModal({ onCreateNewTask }) {
+  const [loading, setLoading] = React.useState(false);
   const router = useRouter();
   const [open, { on: openAddNewUserForm, off: closeAddNewUserForm }] =
     useToggle(false);
@@ -77,8 +81,10 @@ export function NewTaskModal() {
             id="new-task-form"
             component="form"
             onSubmit={onSubmit(async (formValues) => {
-              await createTask(id, formValues);
+              setLoading(true);
+              await createTask(id, formValues, onCreateNewTask);
               closeAddNewUserForm();
+              setLoading(false);
             })}
             sx={{
               display: 'flex',
@@ -129,8 +135,8 @@ export function NewTaskModal() {
           >
             Cancelar
           </Button>
-          <Button type="submit" form="new-task-form" variant="contained">
-            Adicionar
+          <Button type="submit" form="new-task-form" variant="contained" disabled={loading}>
+            {loading ? "Adicionando..." : "Adicionar"}
           </Button>
         </DialogActions>
       </Dialog>
