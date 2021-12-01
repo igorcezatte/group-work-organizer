@@ -232,7 +232,7 @@ export function Layout({ children, variant = 'default' }: LayoutCenterProps) {
                       })
                     }
                   >
-                    Sign Out
+                    Sair
                   </Button>
                 </>
               )}

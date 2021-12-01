@@ -56,7 +56,7 @@ export default function Login() {
             })
           }
         >
-          Login with Google
+          Entrar com Google
         </Button>
       </Paper>
     </Layout>
